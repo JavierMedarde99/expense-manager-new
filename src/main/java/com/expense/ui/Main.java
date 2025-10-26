@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
 import com.expense.ui.component.FormBill;
+import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.TableBill;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
@@ -18,6 +19,7 @@ import jakarta.annotation.security.RolesAllowed;
 public class Main extends Div {
 
     public Main(BillService billService) {
+        HeaderMain headerMain = new HeaderMain();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         VerticalLayout thisMoth = new VerticalLayout();
@@ -32,6 +34,6 @@ public class Main extends Div {
         TableBill tableBillLastMoth = new TableBill(authentication.getName(), billService,false);
         thisMoth.add(titleLastMoth,tableBillLastMoth);
         
-        add(formBill,thisMoth, lastMoth);
+        add(headerMain, formBill,thisMoth, lastMoth);
     }
 }
