@@ -16,7 +16,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class TableBill extends Grid<BillDto> {
 
-    public TableBill(String username, BillService billService) {
+    public TableBill(String username, BillService billService, boolean isThisMoth) {
         
         this.addColumn(BillDto::getName).setHeader("Name").setSortable(true);
         this.addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
@@ -24,9 +24,13 @@ public class TableBill extends Grid<BillDto> {
         this.addColumn(BillDto::getType).setHeader("Type").setSortable(true);
         this.addColumn(BillDto::getSubType).setHeader("Subtype").setSortable(true);
         this.addColumn(BillDto::getDateBills).setHeader("Date").setSortable(true);
+        
 
-        List<BillDto> bills = billService.getBillsByUser(username);
+        List<BillDto> bills = billService.getBillsByUser(username,isThisMoth);
         this.setItems(bills);
+
+
+        this.setEmptyStateText(isThisMoth ? "not bill this moth": "not bill last moth");
 
         this.addComponentColumn(bill -> {
             // Icono 1
@@ -43,7 +47,7 @@ public class TableBill extends Grid<BillDto> {
             deleteIcon.getStyle().set("cursor", "pointer");
             deleteIcon.addClickListener(e -> {
                 billService.deleteBill(bill.getId());
-                reload(username,billService);
+                reload(username,billService,isThisMoth);
 
             });
 
@@ -51,10 +55,14 @@ public class TableBill extends Grid<BillDto> {
             return new HorizontalLayout(editIcon, deleteIcon);
         }).setHeader("Delete/update");
 
+        this.setHeight("250px");      
+        this.getStyle().set("overflow-y", "auto"); 
+        this.setAllRowsVisible(false); 
+        this.setWidthFull(); 
     }
 
-    public void reload(String username,BillService billService) {
-        List<BillDto> bills = billService.getBillsByUser(username);
+    public void reload(String username,BillService billService,boolean isThisMoth) {
+        List<BillDto> bills = billService.getBillsByUser(username,isThisMoth);
         this.setItems(bills); 
     }
 }

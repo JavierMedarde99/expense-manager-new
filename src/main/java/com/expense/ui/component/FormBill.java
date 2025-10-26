@@ -23,10 +23,20 @@ import com.vaadin.flow.spring.annotation.UIScope;
 public class FormBill extends FormLayout {
 
     public FormBill(String username,TableBill tableBill, BillDto billDto, BillService billService) {
-        setResponsiveSteps(
+
+        if(billDto == null) {
+            setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1), 
                 new FormLayout.ResponsiveStep("1200px", 7) 
         );
+        }else {
+            setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1), 
+                new FormLayout.ResponsiveStep("1200px", 2) 
+        );
+        }
+
+        
 
         TextField billName = new TextField("name");
         if(billDto != null) {
@@ -73,7 +83,7 @@ public class FormBill extends FormLayout {
             BillDto billDtoNew = new BillDto(null,amount.getValue(), billName.getValue(), euroField.getValue(),
                     selectType.getValue(), selectSubtype.getValue(), datePicker.getValue());
             if(tableBill != null) {
-                saveBill(billDtoNew, username,tableBill, billService);
+                saveBill(billDtoNew, username, billService);
             }else{
                 updateBill(billDtoNew, username,billService);
             }
@@ -82,9 +92,9 @@ public class FormBill extends FormLayout {
         add(billName, euroField, selectType, selectSubtype, datePicker, amount, buttonSubmit);
     }
 
-    private void saveBill(BillDto billDto, String username,TableBill tableBill, BillService billService) {
+    private void saveBill(BillDto billDto, String username, BillService billService) {
         billService.saveBill(billDto, username);
-        tableBill.reload(username,billService);
+        UI.getCurrent().getPage().reload();
     }
 
     private void updateBill(BillDto billDto, String username, BillService billService) {
