@@ -1,9 +1,9 @@
 package com.expense.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.expense.service.BillService;
 import com.expense.ui.component.FormBill;
 import com.expense.ui.component.TableBill;
 import com.vaadin.flow.component.html.Div;
@@ -15,18 +15,13 @@ import jakarta.annotation.security.RolesAllowed;
 @Route("")
 public class Main extends Div {
 
-    private final FormBill formBill;
-    private final TableBill tableBill;
-
-    @Autowired 
-    public Main(FormBill formBill, TableBill tableBill) {
-        this.formBill = formBill;
-        this.tableBill = tableBill;
-
+    public Main(BillService billService) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        formBill.init(authentication.getName(),tableBill);
 
-        tableBill.init(authentication.getName());
+        TableBill tableBill = new TableBill(authentication.getName(), billService);
+        FormBill formBill = new FormBill(authentication.getName(),tableBill,null,billService);
+
+        
         add(formBill,tableBill);
     }
 }
