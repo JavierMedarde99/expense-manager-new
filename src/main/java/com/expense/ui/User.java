@@ -35,7 +35,7 @@ public class User extends Div{
         UserDto userDto = userService.getUserByUsername(authentication.getName());
 
         H2 title = new H2("Account Information");
-        UserCard userCard = new UserCard(userDto);
+        UserCard userCard = new UserCard(userDto,userService);
 
 
         layout.add(title, userCard);

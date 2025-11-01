@@ -32,4 +32,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return new UserDto(user);
     }
+
+    public void deleteUser(String username) {
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        usersRepository.delete(user);
+    }
 }
