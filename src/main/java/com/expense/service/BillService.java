@@ -1,6 +1,5 @@
 package com.expense.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -28,25 +27,13 @@ public class BillService {
 
     }
 
-    public List<BillDto> getBillsByUser(String username,boolean isThisMoth) {
+    public List<BillDto> getBillByMonthAndYear(String username, int month, int year) {
         Users user = getUserByUsername(username);
-        if(!isThisMoth) {
-            int year = LocalDate.now().getYear();
-            int moth = LocalDate.now().getMonthValue()-1;
-            if(LocalDate.now().getMonthValue()==1) {
-                year = LocalDate.now().getYear()-1;
-                moth = 12;
-            }
-            
-            return billsRepository.getOneMonthBills(moth, year, user.getId())
+        return billsRepository.getOneMonthBills(month, year, user.getId())
                 .stream()
                 .map(BillDto::new)
                 .toList();
-        }
-        return billsRepository.getOneMonthBills(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), user.getId())
-                .stream()
-                .map(BillDto::new)
-                .toList();
+
     }
 
     public void deleteBill(Long id) {

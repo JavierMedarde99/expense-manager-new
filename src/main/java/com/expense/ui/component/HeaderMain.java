@@ -3,6 +3,7 @@ package com.expense.ui.component;
 import org.springframework.stereotype.Component;
 
 import com.expense.ui.Main;
+import com.expense.ui.Month;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
@@ -38,8 +39,9 @@ public class HeaderMain extends AppLayout{
         drawerLayout.setSpacing(true);
 
         RouterLink dashboardLink = new RouterLink("Dashboard", Main.class);
+        RouterLink mothLink = new RouterLink("Month", Month.class);
 
-        drawerLayout.add(dashboardLink);
+        drawerLayout.add(dashboardLink,mothLink);
 
         addToDrawer(drawerLayout);
     }

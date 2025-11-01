@@ -1,5 +1,6 @@
 package com.expense.ui.component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -16,8 +17,10 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class TableBill extends Grid<BillDto> {
 
-    public TableBill(String username, BillService billService, boolean isThisMoth) {
+    public TableBill(String username, BillService billService, Integer month, Integer year) {
         
+        boolean isThisMoth = month.equals(LocalDate.now().getMonthValue()) && year.equals(LocalDate.now().getYear());
+
         this.addColumn(BillDto::getName).setHeader("Name").setSortable(true);
         this.addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
         this.addColumn(BillDto::getPrice).setHeader("Price").setSortable(true);
@@ -26,7 +29,7 @@ public class TableBill extends Grid<BillDto> {
         this.addColumn(BillDto::getDateBills).setHeader("Date").setSortable(true);
         
 
-        List<BillDto> bills = billService.getBillsByUser(username,isThisMoth);
+        List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
         this.setItems(bills);
 
 
@@ -47,7 +50,7 @@ public class TableBill extends Grid<BillDto> {
             deleteIcon.getStyle().set("cursor", "pointer");
             deleteIcon.addClickListener(e -> {
                 billService.deleteBill(bill.getId());
-                reload(username,billService,isThisMoth);
+                reload(username,billService,month,year);
 
             });
 
@@ -61,8 +64,8 @@ public class TableBill extends Grid<BillDto> {
         this.setWidthFull(); 
     }
 
-    public void reload(String username,BillService billService,boolean isThisMoth) {
-        List<BillDto> bills = billService.getBillsByUser(username,isThisMoth);
+    public void reload(String username,BillService billService,Integer month, Integer year) {
+        List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
         this.setItems(bills); 
     }
 }
