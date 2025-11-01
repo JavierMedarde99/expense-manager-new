@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @AnonymousAllowed
@@ -22,12 +23,14 @@ public class Login extends FlexLayout{
 
         VerticalLayout card = new LoginCard();
 
-        H1 title = new H1("Iniciar Sesión");
+        H1 title = new H1("Login");
 
         LoginForm loginForm = new LoginForm();
         loginForm.setAction("login");
 
-        card.add(title, loginForm);
+        var linkRegister = new RouterLink("registration",Register.class);
+
+        card.add(title, loginForm,linkRegister);
 
         card.setJustifyContentMode(JustifyContentMode.CENTER);
         card.setAlignItems(Alignment.CENTER);

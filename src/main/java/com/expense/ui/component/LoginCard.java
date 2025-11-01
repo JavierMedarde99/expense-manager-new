@@ -5,7 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class LoginCard extends VerticalLayout{
     
     public LoginCard() {
-                VerticalLayout card = new VerticalLayout();
+        VerticalLayout card = new VerticalLayout();
         card.setPadding(true);
         card.setSpacing(true);
         card.setWidth("400px");

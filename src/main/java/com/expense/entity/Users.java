@@ -2,6 +2,8 @@ package com.expense.entity;
 
 import java.util.Set;
 
+import com.expense.model.UserDto;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,11 +40,11 @@ public class Users {
     @JoinColumn(name = "user_id")
     private Set<RevenueMonth> revenueMonth;
 
-    public Users(String userName, String email, String password, Double salary) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.salary = salary;
+    public Users(UserDto userDto) {
+        this.userName = userDto.getUserName();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+        this.salary = userDto.getSalary();
     }
 
 }
