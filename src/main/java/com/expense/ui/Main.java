@@ -28,6 +28,9 @@ public class Main extends Div {
         thisMoth.add(titleThisMoth,tableBillThisMoth);
         
         FormBill formBill = new FormBill(authentication.getName(),tableBillThisMoth,null,billService);
+        formBill.getStyle()
+        .set("margin-left", "20px")
+        .set("margin-right", "20px");
 
         VerticalLayout lastMoth = new VerticalLayout();
         Text titleLastMoth = new Text("Last Month's Expenses");

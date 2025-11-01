@@ -31,11 +31,11 @@ public class FormBill extends FormLayout {
         if (billDto == null) {
             setResponsiveSteps(
                     new FormLayout.ResponsiveStep("0", 1),
-                    new FormLayout.ResponsiveStep("1200px", 7));
+                    new FormLayout.ResponsiveStep("1000px", 7));
         } else {
             setResponsiveSteps(
                     new FormLayout.ResponsiveStep("0", 1),
-                    new FormLayout.ResponsiveStep("1200px", 2));
+                    new FormLayout.ResponsiveStep("1000px", 2));
         }
 
         TextField billName = new TextField("name");
