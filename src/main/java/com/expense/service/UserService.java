@@ -27,4 +27,9 @@ public class UserService {
         return true;
     }
 
+    public UserDto getUserByUsername(String username) {
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserDto(user);
+    }
 }

@@ -1,4 +1,4 @@
-package com.expense.ui.component;
+package com.expense.ui.component.Cards;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 

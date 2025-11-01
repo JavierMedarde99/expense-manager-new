@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
+import com.expense.ui.component.Dailogs.DailogUpdate;
+import com.expense.ui.component.Dailogs.DialogDelete;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -49,8 +51,8 @@ public class TableBill extends Grid<BillDto> {
             Icon deleteIcon = new Icon(VaadinIcon.TRASH);
             deleteIcon.getStyle().set("cursor", "pointer");
             deleteIcon.addClickListener(e -> {
-                billService.deleteBill(bill.getId());
-                reload(username,billService,month,year);
+                DialogDelete dialogDelete = new DialogDelete(billService, bill.getId(), username, month, year, this);
+                dialogDelete.open();
 
             });
 

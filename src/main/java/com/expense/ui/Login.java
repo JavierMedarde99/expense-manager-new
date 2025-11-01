@@ -1,6 +1,6 @@
 package com.expense.ui;
 
-import com.expense.ui.component.LoginCard;
+import com.expense.ui.component.Cards.LoginCard;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;

@@ -1,9 +1,10 @@
-package com.expense.ui.component;
+package com.expense.ui.component.Dailogs;
 
 import org.springframework.stereotype.Component;
 
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
+import com.expense.ui.component.Forms.FormBill;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.spring.annotation.UIScope;
 

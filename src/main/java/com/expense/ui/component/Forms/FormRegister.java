@@ -1,4 +1,4 @@
-package com.expense.ui.component;
+package com.expense.ui.component.Forms;
 
 import org.springframework.stereotype.Component;
 
