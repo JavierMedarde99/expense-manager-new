@@ -38,4 +38,16 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         usersRepository.delete(user);
     }
+
+    public void updateUser(String username, UserDto userDto) {
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setEmail(userDto.getEmail());
+        user.setUserName(userDto.getUserName());
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        user.setSalary(userDto.getSalary());
+        usersRepository.save(user);
+    }
 }

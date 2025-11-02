@@ -19,21 +19,26 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 @Component
 @UIScope
-public class FormRegister extends FormLayout{
-    
-    public FormRegister(UserService userService) {
+public class FormUser extends FormLayout {
+
+    public FormUser(UserService userService, UserDto userDto) {
         setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1)
-        );
+                new FormLayout.ResponsiveStep("0", 1));
 
         TextField userName = new TextField("Username");
         userName.setRequiredIndicatorVisible(true);
         userName.setErrorMessage("name is required");
+        if (userDto != null) {
+            userName.setValue(userDto.getUserName());
+        }
 
         TextField email = new TextField("Email");
         email.setRequiredIndicatorVisible(true);
         email.setErrorMessage("email is required");
-        
+        if (userDto != null) {
+            email.setValue(userDto.getEmail());
+        }
+
         PasswordField password = new PasswordField("Password");
         password.setRequiredIndicatorVisible(true);
         password.setErrorMessage("password is required");
@@ -45,6 +50,9 @@ public class FormRegister extends FormLayout{
         euroField.setSuffixComponent(euroSuffix);
         euroField.setRequiredIndicatorVisible(true);
         euroField.setErrorMessage("salary is required");
+        if (userDto != null) {
+            euroField.setValue(userDto.getSalary());
+        }
 
         Button buttonSubmit = new Button("submit");
 
@@ -68,20 +76,34 @@ public class FormRegister extends FormLayout{
 
         buttonSubmit.addClickListener(event -> {
             if (binder.validate().isOk()) {
-            UserDto userDto = new UserDto(userName.getValue(), email.getValue(), password.getValue(), euroField.getValue());
-            if(userService.newUser(userDto)){
-                Notification notification =  Notification.show("User registered successfully!", 3000, Notification.Position.BOTTOM_END);
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                UI.getCurrent().navigate("login");
-            }else{
-                Notification notification =  Notification.show("Error registering user.", 3000, Notification.Position.BOTTOM_END);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                if (userDto != null) {
+                    UserDto userDtoUpdate = new UserDto(userName.getValue(), email.getValue(), password.getValue(),
+                            euroField.getValue());
+                    userService.updateUser(userDto.getUserName(), userDtoUpdate);
+                    Notification notification = Notification.show("User updated successfully!", 3000,
+                            Notification.Position.BOTTOM_END);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    UI.getCurrent().navigate("User");
+                } else {
+                    UserDto userDtoNew = new UserDto(userName.getValue(), email.getValue(), password.getValue(),
+                            euroField.getValue());
+                    if (userService.newUser(userDtoNew)) {
+                        Notification notification = Notification.show("User registered successfully!", 3000,
+                                Notification.Position.BOTTOM_END);
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        UI.getCurrent().navigate("login");
+                    } else {
+                        Notification notification = Notification.show("Error registering user.", 3000,
+                                Notification.Position.BOTTOM_END);
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }
+                }
+
             }
-        }
 
         });
 
-        add(userName,email,password,euroField,buttonSubmit);
+        add(userName, email, password, euroField, buttonSubmit);
 
     }
 }

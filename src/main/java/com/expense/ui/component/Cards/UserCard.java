@@ -3,6 +3,7 @@ package com.expense.ui.component.Cards;
 import com.expense.model.UserDto;
 import com.expense.service.UserService;
 import com.expense.ui.component.Dailogs.DailogDeleteUser;
+import com.expense.ui.component.Dailogs.DailogUpdateUser;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.card.Card;
@@ -20,6 +21,10 @@ public class UserCard extends Card{
         add(username, email,password, salary);
 
         Button editButton = new Button("Edit Information");
+        editButton.addClickListener(e->{
+            DailogUpdateUser dailogUpdateUser = new DailogUpdateUser(userService, userDto);
+            dailogUpdateUser.open();
+        });
 
         Button deleteButton = new Button("Delete Account");
         deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,

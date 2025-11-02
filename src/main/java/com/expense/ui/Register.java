@@ -2,7 +2,7 @@ package com.expense.ui;
 
 import com.expense.service.UserService;
 import com.expense.ui.component.Cards.LoginCard;
-import com.expense.ui.component.Forms.FormRegister;
+import com.expense.ui.component.Forms.FormUser;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,7 +20,7 @@ public class Register extends FlexLayout{
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
-        FormRegister formRegister = new FormRegister(userService);
+        FormUser formRegister = new FormUser(userService,null);
 
         VerticalLayout card = new LoginCard();
         card.setPadding(true);
