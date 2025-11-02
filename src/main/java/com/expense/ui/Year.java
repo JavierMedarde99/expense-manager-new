@@ -1,36 +1,27 @@
 package com.expense.ui;
 
-import java.time.LocalDate;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
 import com.expense.ui.component.HeaderMain;
-import com.expense.ui.component.Forms.FormMonth;
-import com.expense.ui.component.tables.TableBill;
+import com.expense.ui.component.tables.TableYear;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import jakarta.annotation.security.RolesAllowed;
 
-@PageTitle("Moth")
+@PageTitle("Year")
 @RolesAllowed("USER")
-@Route("moth")
-public class Month extends Div{
+@Route("year")
+public class Year extends Div{
     
-    public Month(BillService billService) {
+    public Year(BillService billService) {
         HeaderMain headerMain = new HeaderMain();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        TableBill tableBill = new TableBill(authentication.getName(), billService,LocalDate.now().getMonthValue(),LocalDate.now().getYear());
-        FormMonth formMonth = new FormMonth(billService,authentication.getName(),tableBill);
-        formMonth.getStyle()
-        .set("margin", "20px");
-
+        TableYear tableYear = new TableYear(billService, authentication.getName());
+        add(headerMain, tableYear);
         
-
-        add(headerMain,formMonth,tableBill);
     }
 }

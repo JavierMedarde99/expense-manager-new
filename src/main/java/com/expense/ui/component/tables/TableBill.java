@@ -1,4 +1,4 @@
-package com.expense.ui.component;
+package com.expense.ui.component.tables;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,21 +23,21 @@ public class TableBill extends Grid<BillDto> {
         
         boolean isThisMoth = month.equals(LocalDate.now().getMonthValue()) && year.equals(LocalDate.now().getYear());
 
-        this.addColumn(BillDto::getName).setHeader("Name").setSortable(true);
-        this.addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
-        this.addColumn(BillDto::getPrice).setHeader("Price").setSortable(true);
-        this.addColumn(BillDto::getType).setHeader("Type").setSortable(true);
-        this.addColumn(BillDto::getSubType).setHeader("Subtype").setSortable(true);
-        this.addColumn(BillDto::getDateBills).setHeader("Date").setSortable(true);
+        addColumn(BillDto::getName).setHeader("Name").setSortable(true);
+        addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
+        addColumn(BillDto::getPrice).setHeader("Price").setSortable(true);
+        addColumn(BillDto::getType).setHeader("Type").setSortable(true);
+        addColumn(BillDto::getSubType).setHeader("Subtype").setSortable(true);
+        addColumn(BillDto::getDateBills).setHeader("Date").setSortable(true);
         
 
         List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
-        this.setItems(bills);
+        setItems(bills);
 
 
-        this.setEmptyStateText(isThisMoth ? "not bill this moth": "not bill last moth");
+        setEmptyStateText(isThisMoth ? "not bill this moth": "not bill last moth");
 
-        this.addComponentColumn(bill -> {
+        addComponentColumn(bill -> {
             // Icono 1
             Icon editIcon = new Icon(VaadinIcon.EDIT);
             editIcon.getStyle().set("cursor", "pointer");
@@ -60,14 +60,14 @@ public class TableBill extends Grid<BillDto> {
             return new HorizontalLayout(editIcon, deleteIcon);
         }).setHeader("Delete/update");
 
-        this.setHeight("250px");      
-        this.getStyle().set("overflow-y", "auto"); 
-        this.setAllRowsVisible(false); 
-        this.setWidthFull(); 
+        setHeight("250px");      
+        getStyle().set("overflow-y", "auto"); 
+        setAllRowsVisible(false); 
+        setWidthFull(); 
     }
 
     public void reload(String username,BillService billService,Integer month, Integer year) {
         List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
-        this.setItems(bills); 
+        setItems(bills); 
     }
 }

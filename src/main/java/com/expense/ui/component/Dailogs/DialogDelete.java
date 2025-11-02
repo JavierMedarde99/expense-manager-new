@@ -1,7 +1,7 @@
 package com.expense.ui.component.Dailogs;
 
 import com.expense.service.BillService;
-import com.expense.ui.component.TableBill;
+import com.expense.ui.component.tables.TableBill;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

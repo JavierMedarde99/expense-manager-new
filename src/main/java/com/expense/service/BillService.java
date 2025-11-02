@@ -1,6 +1,7 @@
 package com.expense.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.expense.entity.Bills;
 import com.expense.entity.Users;
 import com.expense.model.BillDto;
 import com.expense.repository.BillsRepository;
+import com.expense.repository.RevenueMonthRepository;
 import com.expense.repository.UsersRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class BillService {
     
     private final BillsRepository billsRepository;
     private final UsersRepository usersRepository;
+    private final RevenueMonthRepository revenueMonthRepository;
 
     public void saveBill(BillDto billDto, String username) {
         
@@ -50,6 +53,11 @@ public class BillService {
         Bills bills = new Bills(billDto, user);
         bills.setId(billDto.getId());
         billsRepository.save(bills);
+    }
+
+    public List<Map<String, Object>> getAllBillsYear(String username) {
+        Users user = getUserByUsername(username);
+        return revenueMonthRepository.geyAllYear(user.getId());
     }
 
     private Users getUserByUsername(String username) {

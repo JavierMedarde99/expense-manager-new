@@ -7,8 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
 import com.expense.ui.component.HeaderMain;
-import com.expense.ui.component.TableBill;
 import com.expense.ui.component.Forms.FormBill;
+import com.expense.ui.component.tables.TableBill;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

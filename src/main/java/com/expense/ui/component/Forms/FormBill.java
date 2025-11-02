@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
-import com.expense.ui.component.TableBill;
+import com.expense.ui.component.tables.TableBill;
 import com.expense.utils.Constants;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

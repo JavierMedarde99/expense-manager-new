@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Data
-public class RevenueMonth {
+public class monthData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,7 @@ public class RevenueMonth {
     @JoinColumn(name = "user_id")
     private Users userId;
 
-    public RevenueMonth(Integer month,Integer year,Double revenue,Users idUser,Double total,Double monthSalary){
+    public monthData(Integer month,Integer year,Double revenue,Users idUser,Double total,Double monthSalary){
         this.month = month;
         this.year = year;
         this.revenue = revenue;

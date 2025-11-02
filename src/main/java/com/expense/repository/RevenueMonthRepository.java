@@ -1,6 +1,6 @@
 package com.expense.repository;
 
-import com.expense.entity.RevenueMonth;
+import com.expense.entity.monthData;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RevenueMonthRepository extends CrudRepository<RevenueMonth,Long>{
+public interface RevenueMonthRepository extends CrudRepository<monthData,Long>{
         
     @Query(value = "SELECT revenue FROM month_data WHERE month=:month and year=:year and user_id=:id", nativeQuery = true)
     Optional<Double> getRevenue(Integer month,Integer year,Integer id);

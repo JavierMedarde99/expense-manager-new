@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.expense.ui.Main;
 import com.expense.ui.Month;
 import com.expense.ui.User;
+import com.expense.ui.Year;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -63,9 +64,10 @@ public class HeaderMain extends AppLayout{
         RouterLink dashboardLink = new RouterLink("Dashboard", Main.class);
         RouterLink mothLink = new RouterLink("Month", Month.class);
         RouterLink userLink = new RouterLink("User", User.class);
+        RouterLink yearLink = new RouterLink("Year", Year.class);
 
 
-        drawerLayout.add(dashboardLink,mothLink,userLink);
+        drawerLayout.add(dashboardLink,mothLink,userLink,yearLink);
 
         addToDrawer(drawerLayout);
     }

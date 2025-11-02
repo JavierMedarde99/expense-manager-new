@@ -38,7 +38,7 @@ public class Users {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private Set<RevenueMonth> revenueMonth;
+    private Set<monthData> revenueMonth;
 
     public Users(UserDto userDto) {
         this.userName = userDto.getUserName();

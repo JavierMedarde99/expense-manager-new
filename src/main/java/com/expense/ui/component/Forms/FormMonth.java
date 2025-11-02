@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.expense.model.BillDto;
 import com.expense.model.MonthArray;
 import com.expense.service.BillService;
-import com.expense.ui.component.TableBill;
+import com.expense.ui.component.tables.TableBill;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.select.Select;
