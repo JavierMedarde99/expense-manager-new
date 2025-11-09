@@ -13,6 +13,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 public class FooterPage extends Footer {
 
     public FooterPage() {
+        setWidthFull();
+
         Text footerText = new Text("© " + LocalDate.now().getYear() + " Expense Manager");
 
         Image logo = new Image("images/logo.webp", "Expense Manager Logo");
