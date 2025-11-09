@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
+import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.Forms.FormBill;
 import com.expense.ui.component.tables.TableBill;
@@ -41,6 +42,7 @@ public class Main extends Div {
         TableBill tableBillLastMoth = new TableBill(authentication.getName(), billService,LocalDate.now().minusMonths(1).getMonthValue(),LocalDate.now().minusMonths(1).getYear());
         thisMoth.add(titleLastMoth,tableBillLastMoth);
         
-        add(headerMain, formBill,thisMoth, lastMoth);
+        FooterPage footer = new FooterPage();
+        add(headerMain, formBill,thisMoth, lastMoth,footer);
     }
 }
