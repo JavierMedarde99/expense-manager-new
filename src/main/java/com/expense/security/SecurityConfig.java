@@ -28,7 +28,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
     // 🔹 Luego tus reglas adicionales
     http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/public/**").permitAll());
+            .requestMatchers("/images/**").permitAll());
 
     // 🔹 Configurar redirección post-login
     http.formLogin(form -> form.successHandler((request, response, authentication) -> {

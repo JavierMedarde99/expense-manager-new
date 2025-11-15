@@ -9,11 +9,20 @@ import com.expense.model.BillDto;
 import com.expense.service.BillService;
 import com.expense.ui.component.Dailogs.DailogUpdate;
 import com.expense.ui.component.Dailogs.DialogDelete;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.spring.annotation.UIScope;
+
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 
 @Component
 @UIScope
@@ -23,19 +32,24 @@ public class TableBill extends Grid<BillDto> {
         
         boolean isThisMoth = month.equals(LocalDate.now().getMonthValue()) && year.equals(LocalDate.now().getYear());
 
+        addColumn(createToggleDetailsRenderer(this))
+                .setWidth("80px")
+                .setFlexGrow(0)
+                .setFrozen(true);
+
         addColumn(BillDto::getName).setHeader("Name").setSortable(true);
         addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
         addColumn(BillDto::getPrice).setHeader("Price").setSortable(true);
-        addColumn(BillDto::getType).setHeader("Type").setSortable(true);
-        addColumn(BillDto::getSubType).setHeader("Subtype").setSortable(true);
-        addColumn(BillDto::getDateBills).setHeader("Date").setSortable(true);
         
-
         List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
         setItems(bills);
 
 
         setEmptyStateText(isThisMoth ? "not bill this moth": "not bill last moth");
+
+        setDetailsVisibleOnClick(false);
+
+        setItemDetailsRenderer(createDetailsRenderer());
 
         addComponentColumn(bill -> {
             // Icono 1
@@ -69,5 +83,51 @@ public class TableBill extends Grid<BillDto> {
     public void reload(String username,BillService billService,Integer month, Integer year) {
         List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
         setItems(bills); 
+    }
+
+        private static Renderer<BillDto> createToggleDetailsRenderer(Grid<BillDto> grid) {
+
+        return LitRenderer.<BillDto>of("""
+            <vaadin-button
+                theme="tertiary icon"
+                aria-label="Toggle details"
+                aria-expanded="${model.detailsOpened ? 'true' : 'false'}"
+                @click="${handleClick}"
+            >
+                <vaadin-icon
+                    .icon="${model.detailsOpened ? 'lumo:angle-down' : 'lumo:angle-right'}"
+                ></vaadin-icon>
+            </vaadin-button>
+        """)
+        .withProperty("detailsOpened", p -> grid.isDetailsVisible(p))
+        .withFunction("handleClick", bill ->
+                grid.setDetailsVisible(bill, !grid.isDetailsVisible(bill))
+        );
+    }
+
+    private static Renderer<BillDto> createDetailsRenderer() {
+        return new ComponentRenderer<>(
+            bill -> {
+
+                TextField type = new TextField("Type", bill.getType());
+                type.setReadOnly(true);
+                type.setValue(bill.getType());
+                TextField subType = new TextField("Subtype", bill.getSubType());
+                subType.setReadOnly(true);
+                subType.setValue(bill.getSubType());
+                TextField dateBills = new TextField("Date", bill.getDateBills().toString());
+                dateBills.setReadOnly(true);
+                dateBills.setValue(bill.getDateBills().toString());
+                FormLayout layout = new FormLayout();
+                layout.setResponsiveSteps(
+                    new ResponsiveStep("0", 1),
+                    new ResponsiveStep("500px", 2)
+                );
+
+                layout.add(type, subType, dateBills);
+
+                return layout;
+            }
+        );
     }
 }

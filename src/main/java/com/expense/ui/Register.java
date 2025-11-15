@@ -16,9 +16,16 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 public class Register extends FlexLayout{
     
     public Register(UserService userService) {
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setAlignItems(Alignment.CENTER);
+    setSizeFull();
+    setWidth("100%");
+    setHeight("100%");
+    setJustifyContentMode(JustifyContentMode.CENTER);
+    setAlignItems(Alignment.CENTER);
+
+    getStyle().set("background-image", "url('images/background_login.webp')");
+    getStyle().set("background-size", "cover");
+    getStyle().set("background-repeat", "no-repeat");
+    getStyle().set("background-position", "center");
 
         FormUser formRegister = new FormUser(userService,null);
 
