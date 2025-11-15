@@ -12,11 +12,9 @@ import com.expense.ui.component.Dailogs.DialogDelete;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
@@ -43,7 +41,6 @@ public class TableBill extends Grid<BillDto> {
         
         List<BillDto> bills = billService.getBillByMonthAndYear(username,month,year);
         setItems(bills);
-
 
         setEmptyStateText(isThisMoth ? "not bill this moth": "not bill last moth");
 
@@ -120,8 +117,7 @@ public class TableBill extends Grid<BillDto> {
                 dateBills.setValue(bill.getDateBills().toString());
                 FormLayout layout = new FormLayout();
                 layout.setResponsiveSteps(
-                    new ResponsiveStep("0", 1),
-                    new ResponsiveStep("500px", 2)
+                    new ResponsiveStep("500px", 3)
                 );
 
                 layout.add(type, subType, dateBills);
