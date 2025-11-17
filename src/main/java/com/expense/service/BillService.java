@@ -1,5 +1,6 @@
 package com.expense.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.expense.entity.Bills;
 import com.expense.entity.Users;
 import com.expense.model.BillDto;
+import com.expense.model.ChartDataBaseDto;
 import com.expense.repository.BillsRepository;
 import com.expense.repository.RevenueMonthRepository;
 import com.expense.repository.UsersRepository;
@@ -58,6 +60,29 @@ public class BillService {
     public List<Map<String, Object>> getAllBillsYear(String username) {
         Users user = getUserByUsername(username);
         return revenueMonthRepository.geyAllYear(user.getId());
+    }
+
+    public List<ChartDataBaseDto> chartData(String username, int month, int year) {
+        List<ChartDataBaseDto> chartDataList = new ArrayList<>();
+        Users user = getUserByUsername(username);
+        List<String> subTypes = billsRepository.getSubTypes(month, year, user.getId());
+
+        for (String subType : subTypes) {
+            List<Map<String,Number>> ListBill = billsRepository.getChartDataByCategory(month, year, user.getId(),subType);
+            double total = 0;
+            for (Map<String,Number> bill : ListBill) {
+                Number price = bill.get("price");
+                Number amount = bill.get("amount");
+                double p = price == null ? 0.0 : price.doubleValue();
+                double a = amount == null ? 0.0 : amount.doubleValue();
+                total += p * a;
+            }
+            ChartDataBaseDto chartData = new ChartDataBaseDto(subType, total);
+            chartDataList.add(chartData);
+        }
+
+
+        return chartDataList;
     }
 
     private Users getUserByUsername(String username) {

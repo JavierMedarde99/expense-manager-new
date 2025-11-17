@@ -1,6 +1,5 @@
 package com.expense.ui;
 
-import java.time.LocalDate;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,10 +9,7 @@ import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.MenuMain;
 import com.expense.ui.component.Forms.FormBill;
-import com.expense.ui.component.tables.TableBill;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 

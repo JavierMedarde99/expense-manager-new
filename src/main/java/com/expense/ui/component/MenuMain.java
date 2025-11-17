@@ -32,7 +32,7 @@ public class MenuMain extends VerticalLayout{
         data.addClickListener(e -> showTables(userName, billService));
 
         // Inicialmente mostramos las tablas
-        showTables(userName, billService);
+        showStats(userName, billService);
         
         add(menuBar,mainContent);
     }
@@ -59,7 +59,18 @@ public class MenuMain extends VerticalLayout{
     private void showStats(String userName, BillService billService) {
         mainContent.removeAll(); // Limpiamos contenido anterior
 
-        ChartsBill chart = new ChartsBill(); // Tu componente chart
-        mainContent.add(chart);
+        HorizontalLayout chartsLayout = new HorizontalLayout();
+        chartsLayout.setWidthFull();
+        chartsLayout.getStyle().set("display", "flex");
+        chartsLayout.getStyle().set("flex-wrap", "wrap");
+        chartsLayout.getStyle().set("justify-content", "space-around");
+        
+        Div pieChartThisMoth = new ChartPie(billService, userName, LocalDate.now().getMonthValue(), LocalDate.now().getYear(), "This Month");
+        pieChartThisMoth.setWidth("500px");
+        Div pieChartLastMoth = new ChartPie(billService, userName, LocalDate.now().minusMonths(1).getMonthValue(), LocalDate.now().minusMonths(1).getYear(), "Last Month");
+        pieChartLastMoth.setWidth("500px");
+
+        chartsLayout.add(pieChartThisMoth, pieChartLastMoth);
+        mainContent.add(chartsLayout);
     }
 }
