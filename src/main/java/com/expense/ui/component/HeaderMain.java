@@ -32,6 +32,9 @@ public class HeaderMain extends AppLayout {
         logo.setHeight("100px");
         logo.setWidth("100px");
 
+        RouterLink logoLink = new RouterLink("", Main.class);
+        logoLink.add(logo);
+
         Button logoutButton = new Button("Logout", e -> {
             try {
                 HttpServletRequest request =
@@ -44,7 +47,7 @@ public class HeaderMain extends AppLayout {
         });
 
         // 🔹 Navbar (toggle + contenido)
-        HorizontalLayout header = new HorizontalLayout(toggle, logo, logoutButton);
+        HorizontalLayout header = new HorizontalLayout(toggle, logoLink, logoutButton);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidthFull();
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
@@ -56,8 +59,11 @@ public class HeaderMain extends AppLayout {
         logoMenu.setHeight("60px");
         logoMenu.setWidth("60px");
 
+        RouterLink logoMenuLink = new RouterLink("", Main.class);
+        logoMenuLink.add(logoMenu);
+
         // 🔹 Drawer
-        VerticalLayout drawerLayout = new VerticalLayout(logoMenu,
+        VerticalLayout drawerLayout = new VerticalLayout(logoMenuLink,
                 new RouterLink("Dashboard", Main.class),
                 new RouterLink("Month", Month.class),
                 new RouterLink("User", User.class),
