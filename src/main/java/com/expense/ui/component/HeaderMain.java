@@ -7,6 +7,7 @@ import com.expense.ui.Main;
 import com.expense.ui.Month;
 import com.expense.ui.User;
 import com.expense.ui.Year;
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -23,17 +24,16 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 @UIScope
-public class HeaderMain extends AppLayout{
-    
+public class HeaderMain extends AppLayout {
+
     public HeaderMain() {
 
         // hamburger menu
         DrawerToggle toggle = new DrawerToggle();
-        
 
         Image logo = new Image("images/logo.webp", "Expense Manager Logo");
-        logo.setHeight("60px");
-        logo.setWidth("60px");
+        logo.setHeight("100px");
+        logo.setWidth("100px");
 
         Button logoutButton = new Button("Logout", e -> {
             try {
@@ -56,7 +56,7 @@ public class HeaderMain extends AppLayout{
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         header.addClassNames(LumoUtility.Background.BASE, LumoUtility.Padding.Horizontal.MEDIUM);
         header.getStyle()
-            .set("background-color", "#f5f5f5"); // color de fondo del header
+                .set("background-color", "#f5f5f5"); // color de fondo del header
 
         // Agregar header al AppLayout
         addToNavbar(header);
@@ -67,6 +67,7 @@ public class HeaderMain extends AppLayout{
         drawerLayout.setSpacing(true);
         drawerLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         drawerLayout.getStyle().setBackgroundColor("#f5f5f5");
+        
 
         RouterLink dashboardLink = new RouterLink("Dashboard", Main.class);
         RouterLink mothLink = new RouterLink("Month", Month.class);
@@ -77,8 +78,12 @@ public class HeaderMain extends AppLayout{
         logoDrawer.setHeight("80px");
         logoDrawer.setWidth("80px");
 
-        drawerLayout.add(logoDrawer,dashboardLink,mothLink,userLink,yearLink);
+        drawerLayout.add(logoDrawer, dashboardLink, mothLink, userLink, yearLink);
 
         addToDrawer(drawerLayout);
+
+        setPrimarySection(Section.NAVBAR);
+        setDrawerOpened(false);
     }
+
 }

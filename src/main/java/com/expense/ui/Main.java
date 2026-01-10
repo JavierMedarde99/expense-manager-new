@@ -9,7 +9,7 @@ import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.MenuMain;
 import com.expense.ui.component.Forms.FormBill;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -18,7 +18,7 @@ import jakarta.annotation.security.RolesAllowed;
 @PageTitle("Dashboard")
 @RolesAllowed("USER")
 @Route("")
-public class Main extends Div {
+public class Main extends VerticalLayout {
 
     public Main(BillService billService) {
         HeaderMain headerMain = new HeaderMain();
@@ -31,9 +31,10 @@ public class Main extends Div {
 
         MenuMain menuMain = new MenuMain(authentication.getName(),billService);
 
-
+        setHeightFull();
         
         FooterPage footer = new FooterPage();
+
         add(headerMain, formBill,menuMain,menuMain,footer);
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.expense.entity.Bills;
-import com.expense.model.ChartDataBaseDto;
 
 public interface BillsRepository extends CrudRepository<Bills, Long> {
 
