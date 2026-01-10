@@ -18,7 +18,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Moth")
 @RolesAllowed("USER")
-@Route("moth")
+@Route(value = "moth", layout = HeaderMain.class)
 public class Month extends VerticalLayout{
     
     public Month(BillService billService) {
@@ -26,7 +26,6 @@ public class Month extends VerticalLayout{
         setPadding(false);
         setSpacing(false);
 
-        HeaderMain headerMain = new HeaderMain();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         TableBill tableBill = new TableBill(authentication.getName(), billService,LocalDate.now().getMonthValue(),LocalDate.now().getYear());
@@ -43,6 +42,6 @@ public class Month extends VerticalLayout{
 
         FooterPage footer = new FooterPage();
 
-        add(headerMain,layout,footer);
+        add(layout, footer);
     }
 }

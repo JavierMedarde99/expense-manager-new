@@ -15,26 +15,25 @@ import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Year")
 @RolesAllowed("USER")
-@Route("year")
+@Route(value = "Year", layout = HeaderMain.class)
 public class Year extends VerticalLayout{
     
     public Year(BillService billService) {
         setSizeFull(); // ocupa toda la pantalla
         setPadding(false);
         setSpacing(false);
-        HeaderMain headerMain = new HeaderMain();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TableYear tableYear = new TableYear(billService, authentication.getName());
 
-                VerticalLayout layout = new VerticalLayout();
+        VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setAlignItems(Alignment.CENTER);
 
         layout.add(tableYear);
         FooterPage footer = new FooterPage();
-        add(headerMain, layout,footer);
+        add(layout,footer);
         
     }
 }

@@ -17,15 +17,13 @@ import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("UserInfo")
 @RolesAllowed("USER")
-@Route("User")
+@Route(value = "User", layout = HeaderMain.class)
 public class User extends VerticalLayout{
     
     public User(UserService userService) {
         setSizeFull(); // ocupa toda la pantalla
         setPadding(false);
         setSpacing(false);
-
-        HeaderMain headerMain = new HeaderMain();
 
         VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
@@ -43,7 +41,7 @@ public class User extends VerticalLayout{
         FooterPage footer = new FooterPage();
 
 
-        add(headerMain, layout, footer);
+        add(layout, footer);
 
         expand(layout); 
     }

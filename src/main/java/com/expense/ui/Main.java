@@ -17,24 +17,27 @@ import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Dashboard")
 @RolesAllowed("USER")
-@Route("")
+@Route(value = "", layout = HeaderMain.class)
 public class Main extends VerticalLayout {
 
     public Main(BillService billService) {
-        HeaderMain headerMain = new HeaderMain();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
-        FormBill formBill = new FormBill(authentication.getName(),null,null,billService);
+
+        FormBill formBill = new FormBill(authentication.getName(), null, null, billService);
         formBill.getStyle()
-        .set("margin-left", "20px")
-        .set("margin-right", "20px");
+                .set("margin-left", "20px")
+                .set("margin-right", "20px");
 
-        MenuMain menuMain = new MenuMain(authentication.getName(),billService);
+        MenuMain menuMain = new MenuMain(authentication.getName(), billService);
 
-        setHeightFull();
-        
         FooterPage footer = new FooterPage();
 
-        add(headerMain, formBill,menuMain,menuMain,footer);
+        setSizeFull();
+        setPadding(false);
+        setSpacing(false);
+
+        add(formBill, menuMain, menuMain, footer);
+        expand(formBill, menuMain);
     }
 }
+
