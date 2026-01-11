@@ -1,9 +1,14 @@
 package com.expense.ui;
 
+import java.util.List;
+import java.util.Map;
+
 import com.expense.ui.component.Cards.LoginCard;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -12,8 +17,9 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @AnonymousAllowed
 @PageTitle("Login")
 @Route("login")
-public class Login extends FlexLayout{
+public class Login extends FlexLayout implements BeforeEnterObserver{
     
+    private LoginForm loginForm = new LoginForm();
 
     public Login() {
     setSizeFull();
@@ -29,8 +35,8 @@ public class Login extends FlexLayout{
 
         VerticalLayout card = new LoginCard();
 
-        LoginForm loginForm = new LoginForm();
         loginForm.setAction("login");
+        
 
         var linkRegister = new RouterLink("registration",Register.class);
 
@@ -40,6 +46,16 @@ public class Login extends FlexLayout{
         card.setAlignItems(Alignment.CENTER);
 
         add(card);
+    }
+
+        @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        Map<String, List<String>> params =
+                event.getLocation().getQueryParameters().getParameters();
+
+        if (params.containsKey("error")) {
+            loginForm.setError(true);
+        }
     }
 
 }

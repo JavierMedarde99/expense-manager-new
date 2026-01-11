@@ -31,9 +31,14 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/images/**").permitAll());
 
     // 🔹 Configurar redirección post-login
-    http.formLogin(form -> form.successHandler((request, response, authentication) -> {
+    http.formLogin(form ->{
+        form.successHandler((request, response, authentication) -> {
         response.sendRedirect("/");
-    }));
+    });
+    form.failureHandler((request, response, exception) -> {
+        response.sendRedirect("/login?error");
+    });
+    } );
 
     return http.build();
 }
