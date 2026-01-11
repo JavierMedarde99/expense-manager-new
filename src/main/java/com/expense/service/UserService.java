@@ -39,6 +39,13 @@ public class UserService {
         usersRepository.delete(user);
     }
 
+    public void changePassword(String username, String newPassword) {
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+    }
+
     public void updateUser(String username, UserDto userDto) {
         Users user = usersRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));

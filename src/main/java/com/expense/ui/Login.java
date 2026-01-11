@@ -36,7 +36,7 @@ public class Login extends FlexLayout implements BeforeEnterObserver{
         VerticalLayout card = new LoginCard();
 
         loginForm.setAction("login");
-        
+        loginForm.addForgotPasswordListener(event -> getUI().ifPresent(ui -> ui.navigate("forgotpassword")));
 
         var linkRegister = new RouterLink("registration",Register.class);
 
