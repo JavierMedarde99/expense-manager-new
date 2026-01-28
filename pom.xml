@@ -98,7 +98,7 @@
     <!-- Perfil de producción -->
     <profiles>
         <profile>
-            <id>production</id>
+            <id>pro</id>
             <properties>
                 <!-- Esto activa build de frontend y producción de Vaadin -->
                 <vaadin.productionMode>true</vaadin.productionMode>
