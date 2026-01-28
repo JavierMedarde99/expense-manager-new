@@ -1,19 +1,10 @@
-# ===== BUILD STAGE =====
-FROM maven:3.9-amazoncorretto-21-alpine AS build
+FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
-
-COPY pom.xml .
-RUN mvn -B dependency:go-offline
-
 COPY . .
-RUN mvn clean package -Pproduction -DskipTests
+RUN mvn clean package -DskipTests
 
-# ===== RUNTIME STAGE =====
-FROM amazoncorretto:21-alpine
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-COPY --from=build /app/target/*.jar app.jar
-
+COPY --from=build /app/target/manager.jar manager.jar
 EXPOSE 8080
-
-ENTRYPOINT ["java","-Dspring.profiles.active=pro","-jar","/app/app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=pro","-jar","manager.jar"]
