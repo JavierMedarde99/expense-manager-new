@@ -72,55 +72,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>${vaadin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-frontend</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+  <groupId>com.vaadin</groupId>
+  <artifactId>vaadin-maven-plugin</artifactId>
+  <version>${vaadin.version}</version>
+</plugin>
         </plugins>
     </build>
-    
-    <profiles>
-        <profile>
-            <id>production</id>
-            <dependencies>
-                <dependency>
-                    <!-- Exclude development dependencies from production -->
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-core</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>com.vaadin</groupId>
-                            <artifactId>vaadin-dev</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>${vaadin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>build-frontend</goal>
-                                </goals>
-                                <phase>compile</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+        
+    <profile>
+    <id>production</id>
+    <properties>
+        <vaadin.productionMode>true</vaadin.productionMode>
+    </properties>
+    </profile>
     
     <repositories>
         <repository>
