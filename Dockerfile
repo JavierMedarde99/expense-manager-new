@@ -1,23 +1,10 @@
-# Stage 1: Build
-FROM maven:3.9.5-eclipse-temurin-17 AS build
+FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -Ppro -DskipTests
 
-# Copiar pom y dependencias primero para cachear
-COPY pom.xml .
-COPY src ./src
-
-# Build del proyecto y empaquetado
-RUN mvn clean package -DskipTests
-
-# Stage 2: Run
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-# Copiar el jar generado en el build
-COPY --from=build /app/target/*.jar app.jar
-
-# Puerto que expondrá la app (ajusta si tu app usa otro)
+COPY --from=build /app/target/manager.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar la app
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=pro","-jar","app.jar"]
