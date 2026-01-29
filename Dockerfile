@@ -1,10 +1,9 @@
-FROM maven:3-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-21-slim AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package -Ppro -DskipTests
+RUN mvn -Pproduction package
 
 FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=build /app/target/manager.jar app.jar
+COPY --from=buildder /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-Dspring.profiles.active=pro","-jar","app.jar"]
+ENTRYPOINT [ "java", "-jar","-Dspring.profiles.active=pro" ,"app.jar" ]
