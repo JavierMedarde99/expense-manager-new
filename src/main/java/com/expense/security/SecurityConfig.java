@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
 import com.expense.ui.Login;
 import com.vaadin.flow.spring.security.VaadinAwareSecurityContextHolderStrategyConfiguration;
@@ -16,32 +17,36 @@ import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
 @Configuration
 @EnableWebSecurity
 @Import(VaadinAwareSecurityContextHolderStrategyConfiguration.class)
-public class SecurityConfig{
+public class SecurityConfig {
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    // 🔹 Primero aplica la configuración de Vaadin
-    http.with(VaadinSecurityConfigurer.vaadin(), vaadin -> {
-        vaadin.loginView(Login.class);
-    });
+        // 🔹 Primero aplica la configuración de Vaadin
+        http.with(VaadinSecurityConfigurer.vaadin(), vaadin -> {
+            vaadin.loginView(Login.class);
+        });
 
-    // 🔹 Luego tus reglas adicionales
-    http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/images/**").permitAll());
+        // 🔹 Luego tus reglas adicionales
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/images/**").permitAll());
 
-    // 🔹 Configurar redirección post-login
-    http.formLogin(form ->{
-        form.successHandler((request, response, authentication) -> {
-        response.sendRedirect("/");
-    });
-    form.failureHandler((request, response, exception) -> {
-        response.sendRedirect("/login?error");
-    });
-    } );
+        // 🔹 Configurar redirección post-login
+        http.formLogin(form -> {
+            form.successHandler((request, response, authentication) -> {
+                response.sendRedirect("/");
+            });
+            form.failureHandler((request, response, exception) -> {
+                response.sendRedirect("/login?error");
+            });
+        });
 
-    return http.build();
-}
+        http.headers(headers -> headers
+                .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+
+        return http.build();
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
