@@ -135,6 +135,7 @@ public class FormBill extends FormLayout {
                 if (tableBill != null) {
                     saveBill(billDtoNew, username, billService);
                 } else {
+                    billDtoNew.setId(billDto.getId());
                     updateBill(billDtoNew, username, billService);
                 }
             }

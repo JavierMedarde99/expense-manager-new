@@ -34,14 +34,6 @@ public class Users {
     private String password;
     private Double salary;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "user_id")
-    private Set<Bills> bills;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "user_id")
-    private Set<monthData> revenueMonth;
-
     public Users(UserDto userDto) {
         this.userName = userDto.getUserName();
         this.email = userDto.getEmail();
