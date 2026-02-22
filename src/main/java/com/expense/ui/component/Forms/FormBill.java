@@ -132,7 +132,7 @@ public class FormBill extends FormLayout {
             if (binder.validate().isOk()) {
                 BillDto billDtoNew = new BillDto(null, amount.getValue(), billName.getValue(), euroField.getValue(),
                         selectType.getValue(), selectSubtype.getValue(), datePicker.getValue());
-                if (tableBill != null) {
+                if (billDto == null) {
                     saveBill(billDtoNew, username, billService);
                 } else {
                     billDtoNew.setId(billDto.getId());
