@@ -3,6 +3,7 @@ package com.expense.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -83,6 +84,24 @@ public class BillService {
 
 
         return chartDataList;
+    }
+
+    public Double getTotalByMothAndYear(int month,int year,String username){
+        Double sum = 0.00;
+        Users user = getUserByUsername(username);
+        Optional<Double> optTotal = revenueMonthRepository.getRevenue(month, year, user.getId());
+        if(optTotal.isPresent()){
+            return optTotal.get();
+        }
+        List<Bills> listBills = billsRepository.getOneMonthBills(month, year, user.getId());
+
+        for (Bills bills : listBills) {
+            Double expense = bills.getPrice()*bills.getAmount();
+            sum += expense;
+        }
+
+        return sum;
+
     }
 
     private Users getUserByUsername(String username) {
