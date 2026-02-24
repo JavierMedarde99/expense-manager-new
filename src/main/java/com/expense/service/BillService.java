@@ -91,7 +91,7 @@ public class BillService {
         Users user = getUserByUsername(username);
         Optional<Double> optTotal = revenueMonthRepository.getRevenue(month, year, user.getId());
         if(optTotal.isPresent()){
-            return optTotal.get();
+            return Math.round(optTotal.get() * 100.0) / 100.0;
         }
         List<Bills> listBills = billsRepository.getOneMonthBills(month, year, user.getId());
 
@@ -100,7 +100,7 @@ public class BillService {
             sum += expense;
         }
 
-        return sum;
+        return Math.round(sum * 100.0) / 100.0;
 
     }
 

@@ -29,8 +29,9 @@ public class Month extends VerticalLayout{
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Text monthTotal = new Text("the total is "+ billService.getTotalByMothAndYear(LocalDate.now().getMonthValue(),LocalDate.now().getYear(),authentication.getName()).toString());
         TableBill tableBill = new TableBill(authentication.getName(), billService,LocalDate.now().getMonthValue(),LocalDate.now().getYear());
-        FormMonth formMonth = new FormMonth(billService,authentication.getName(),tableBill);
+        FormMonth formMonth = new FormMonth(billService,authentication.getName(),tableBill,monthTotal);
         formMonth.getStyle()
         .set("margin", "20px");
 
@@ -39,7 +40,7 @@ public class Month extends VerticalLayout{
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setAlignItems(Alignment.CENTER);
 
-        layout.add(formMonth,tableBill);
+        layout.add(formMonth,tableBill,monthTotal);
 
         FooterPage footer = new FooterPage();
 

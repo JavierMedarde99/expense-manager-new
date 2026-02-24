@@ -11,6 +11,7 @@ import com.expense.model.BillDto;
 import com.expense.model.MonthArray;
 import com.expense.service.BillService;
 import com.expense.ui.component.tables.TableBill;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.select.Select;
@@ -20,7 +21,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class FormMonth extends FormLayout {
 
-    public FormMonth(BillService billService, String username, TableBill tableBill) {
+    public FormMonth(BillService billService, String username, TableBill tableBill, Text textTotal) {
 
         setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("1000px", 3));
@@ -44,6 +45,7 @@ public class FormMonth extends FormLayout {
                     selectMoth.getValue().getValue(),
                     selectYear.getValue());
             tableBill.setItems(bills);
+            textTotal.setText("the total is "+ billService.getTotalByMothAndYear(selectMoth.getValue().getValue(),selectYear.getValue(),username).toString());
         });
         add(selectMoth, selectYear, buttonFilter);
     }
