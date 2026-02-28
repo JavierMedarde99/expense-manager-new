@@ -9,7 +9,7 @@ public class DailogUpdateUser extends Dialog{
     
     public DailogUpdateUser(UserService userService, UserDto userDto) {
         setHeaderTitle("Update Account");
-        FormUser formUser = new FormUser(userService, userDto);
+        FormUser formUser = new FormUser(userService, userDto,null);
         add(formUser);
     }
 }

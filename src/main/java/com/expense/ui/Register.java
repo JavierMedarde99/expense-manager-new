@@ -1,5 +1,6 @@
 package com.expense.ui;
 
+import com.expense.service.SubTypesService;
 import com.expense.service.UserService;
 import com.expense.ui.component.Cards.LoginCard;
 import com.expense.ui.component.Forms.FormUser;
@@ -15,7 +16,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @Route("registration")
 public class Register extends FlexLayout{
     
-    public Register(UserService userService) {
+    public Register(UserService userService,SubTypesService subTypeService) {
     setSizeFull();
     setWidth("100%");
     setHeight("100%");
@@ -27,7 +28,7 @@ public class Register extends FlexLayout{
     getStyle().set("background-repeat", "no-repeat");
     getStyle().set("background-position", "center");
 
-        FormUser formRegister = new FormUser(userService,null);
+        FormUser formRegister = new FormUser(userService,null,subTypeService);
 
         VerticalLayout card = new LoginCard();
         card.setPadding(true);
