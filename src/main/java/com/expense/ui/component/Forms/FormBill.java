@@ -1,11 +1,14 @@
 package com.expense.ui.component.Forms;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.expense.entity.Subtypes;
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
+import com.expense.service.SubTypesService;
 import com.expense.ui.component.tables.TableBill;
 import com.expense.utils.Constants;
 import com.vaadin.flow.component.UI;
@@ -18,6 +21,7 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.validator.DateRangeValidator;
 import com.vaadin.flow.data.validator.DoubleRangeValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
@@ -27,7 +31,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class FormBill extends FormLayout {
 
-    public FormBill(String username, TableBill tableBill, BillDto billDto, BillService billService) {
+    public FormBill(String username, TableBill tableBill, BillDto billDto, BillService billService,SubTypesService subTypesService) {
 
         if (billDto == null) {
             setResponsiveSteps(
@@ -72,8 +76,10 @@ public class FormBill extends FormLayout {
         selectType.setRequiredIndicatorVisible(true);
         selectType.setErrorMessage("type is required");
 
-        Select<String> selectSubtype = new Select<>();
-        selectSubtype.setItems(Constants.SUBTYPE);
+        Select<Subtypes> selectSubtype = new Select<>();
+        List<Subtypes> listSubtypes = subTypesService.getSubTypes(username);
+        selectSubtype.setItemLabelGenerator(Subtypes::getText);
+        selectSubtype.setItems(new ListDataProvider<>(listSubtypes));
         selectSubtype.setLabel("Subtype");
         if (billDto != null) {
             selectSubtype.setValue(billDto.getSubType());

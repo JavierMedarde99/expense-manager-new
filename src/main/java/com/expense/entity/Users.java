@@ -1,11 +1,5 @@
 package com.expense.entity;
 
-import java.util.List;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
-import com.expense.model.SubTypesDto;
 import com.expense.model.UserDto;
 
 import jakarta.persistence.Column;
@@ -33,9 +27,6 @@ public class Users {
     private String email;
     private String password;
     private Double salary;
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private List<SubTypesDto> subType;
 
     public Users(UserDto userDto) {
         this.userName = userDto.getUserName();

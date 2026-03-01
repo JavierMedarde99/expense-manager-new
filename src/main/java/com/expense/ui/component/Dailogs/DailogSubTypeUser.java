@@ -23,10 +23,15 @@ import com.expense.service.SubTypesService;
 
 public class DailogSubTypeUser extends Dialog {
 
-    
-    public DailogSubTypeUser(Long userId, SubTypesService subTypeService){
+    public DailogSubTypeUser(Long userId, SubTypesService subTypeService, List<SubTypesDto> listSubTypes) {
 
-        List<SubTypesDto> listSubTypes = new ArrayList<>();
+        List<SubTypesDto> listSubTypesNew;
+
+        if (listSubTypes != null) {
+            listSubTypesNew = listSubTypes;
+        } else {
+            listSubTypesNew = new ArrayList<>();
+        }
 
         setHeaderTitle("custom subtypes");
 
@@ -40,42 +45,67 @@ public class DailogSubTypeUser extends Dialog {
         Button button = new Button("send subType");
         Button saveSubTypes = new Button("save SubType");
 
-        saveSubTypes.addClickListener(event->{
-            if(listSubTypes.isEmpty()){
+        saveSubTypes.addClickListener(event -> {
+            if (listSubTypesNew.isEmpty()) {
                 Notification notification = Notification.show("Please add at least one subType", 3000,
-                                Notification.Position.BOTTOM_END);
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }else{
-                subTypeService.saveAllSubtype(userId, listSubTypes);
-                Notification notification = Notification.show("User registered successfully!", 3000,
-                                Notification.Position.BOTTOM_END);
-                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                        close();
-                        UI.getCurrent().navigate("login");
+                        Notification.Position.BOTTOM_END);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else {
+                subTypeService.saveAllSubtype(userId, listSubTypesNew);
+                Notification notification = Notification.show(listSubTypes != null? "User registered successfully!": "update subtyepe succesfully", 3000,
+                        Notification.Position.BOTTOM_END);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                close();
+                if(listSubTypes != null) UI.getCurrent().navigate("login");
+                
             }
         });
 
-        VerticalLayout listSubtypes = new VerticalLayout();
+        VerticalLayout listSubtypesVertical = new VerticalLayout();
 
-        button.addClickListener(event ->{
-            HorizontalLayout subtypes = new HorizontalLayout();
-            SubTypesDto subTypesDto = new SubTypesDto(inputText.getValue(), colorPicker.getValue().isBlank() ? "#000000": colorPicker.getValue());
-            listSubTypes.add(subTypesDto);
+        if (listSubTypes != null) {
+            for (SubTypesDto subTypesDto : listSubTypesNew) {
+                HorizontalLayout subtypesDiv = new HorizontalLayout();
+                Div cuadrado = new Div();
+                cuadrado.setWidth("20px");
+                cuadrado.setHeight("20px");
+                cuadrado.getStyle().set("background-color",
+                        subTypesDto.getColor().isBlank() ? "black" : subTypesDto.getColor());
+
+                Icon iconDelete = new Icon(VaadinIcon.ARROWS_CROSS);
+                iconDelete.setColor("#FF0000");
+                iconDelete.addClickListener(event2 -> {
+                    listSubTypesNew.remove(subTypesDto);
+                    subtypesDiv.removeAll();
+                });
+
+                subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
+                listSubtypesVertical.add(subtypesDiv);
+            }
+
+        }
+
+        button.addClickListener(event -> {
+            HorizontalLayout subtypesDiv = new HorizontalLayout();
+            SubTypesDto subTypesDto = new SubTypesDto(inputText.getValue(),
+                    colorPicker.getValue().isBlank() ? "#000000" : colorPicker.getValue());
+            listSubTypesNew.add(subTypesDto);
             Div cuadrado = new Div();
             cuadrado.setWidth("20px");
             cuadrado.setHeight("20px");
-            cuadrado.getStyle().set("background-color", subTypesDto.getColor().isBlank() ? "black": subTypesDto.getColor());
+            cuadrado.getStyle().set("background-color",
+                    subTypesDto.getColor().isBlank() ? "black" : subTypesDto.getColor());
             Icon iconDelete = new Icon(VaadinIcon.ARROWS_CROSS);
             iconDelete.setColor("#FF0000");
-            iconDelete.addClickListener(event2->{
-                listSubTypes.remove(subTypesDto);
-                subtypes.removeAll();
+            iconDelete.addClickListener(event2 -> {
+                listSubTypesNew.remove(subTypesDto);
+                subtypesDiv.removeAll();
             });
-            subtypes.add(cuadrado,new Text(subTypesDto.getName()),iconDelete);
-            listSubtypes.add(subtypes);
+            subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
+            listSubtypesVertical.add(subtypesDiv);
         });
 
-        inputs.add(inputText,colorPicker,button);
-        add(inputs,listSubtypes,saveSubTypes);
+        inputs.add(inputText, colorPicker, button);
+        add(inputs, listSubtypesVertical, saveSubTypes);
     }
 }

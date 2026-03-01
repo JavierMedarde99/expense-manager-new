@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
+import com.expense.service.SubTypesService;
 import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.MenuMain;
@@ -20,10 +21,10 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "", layout = HeaderMain.class)
 public class Main extends VerticalLayout {
 
-    public Main(BillService billService) {
+    public Main(BillService billService, SubTypesService subTypesService) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        FormBill formBill = new FormBill(authentication.getName(), null, null, billService);
+        FormBill formBill = new FormBill(authentication.getName(), null, null, billService,subTypesService);
         formBill.getStyle()
                 .set("margin-left", "20px")
                 .set("margin-right", "20px");

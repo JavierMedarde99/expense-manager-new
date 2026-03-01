@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.model.UserDto;
+import com.expense.service.SubTypesService;
 import com.expense.service.UserService;
 import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
@@ -20,8 +21,8 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "User", layout = HeaderMain.class)
 public class User extends VerticalLayout{
     
-    public User(UserService userService) {
-        setSizeFull(); // ocupa toda la pantalla
+    public User(UserService userService,SubTypesService subTypesService) {
+        setSizeFull(); 
         setPadding(false);
         setSpacing(false);
 
@@ -34,7 +35,7 @@ public class User extends VerticalLayout{
         UserDto userDto = userService.getUserByUsername(authentication.getName());
 
         H2 title = new H2("Account Information");
-        UserCard userCard = new UserCard(userDto, userService);
+        UserCard userCard = new UserCard(userDto, userService,subTypesService);
         layout.add(title, userCard);
 
 

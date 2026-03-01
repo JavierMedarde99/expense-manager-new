@@ -80,6 +80,7 @@ public class TableBill extends Grid<BillDto> {
         getStyle().set("overflow-y", "auto");
         setAllRowsVisible(false);
         setWidthFull();
+
     }
 
     public void reload(String username, BillService billService, Integer month, Integer year) {
@@ -112,9 +113,9 @@ public class TableBill extends Grid<BillDto> {
                     TextField type = new TextField("Type", bill.getType());
                     type.setReadOnly(true);
                     type.setValue(bill.getType());
-                    TextField subType = new TextField("Subtype", bill.getSubType());
+                    TextField subType = new TextField("Subtype", bill.getSubType().getText());
                     subType.setReadOnly(true);
-                    subType.setValue(bill.getSubType());
+                    subType.setValue(bill.getSubType().getText());
                     TextField dateBills = new TextField("Date", bill.getDateBills().toString());
                     dateBills.setReadOnly(true);
                     dateBills.setValue(bill.getDateBills().toString());

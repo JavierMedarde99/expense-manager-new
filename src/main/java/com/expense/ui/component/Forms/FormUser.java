@@ -92,14 +92,10 @@ public class FormUser extends FormLayout {
                             euroField.getValue());
                     Long userId = userService.newUser(userDtoNew);
                     if (userId != -1L) {
-                        DailogSubTypeUser dialog = new DailogSubTypeUser(userId,subTypeService);
+                        DailogSubTypeUser dialog = new DailogSubTypeUser(userId,subTypeService,null);
                         dialog.setCloseOnOutsideClick(false);
                         dialog.setCloseOnEsc(false);
                         dialog.open();
-                        /*Notification notification = Notification.show("User registered successfully!", 3000,
-                                Notification.Position.BOTTOM_END);
-                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                        UI.getCurrent().navigate("login");*/
                     } else {
                         Notification notification = Notification.show("Error registering user.", 3000,
                                 Notification.Position.BOTTOM_END);

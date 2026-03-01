@@ -57,4 +57,10 @@ public class UserService {
         user.setSalary(userDto.getSalary());
         usersRepository.save(user);
     }
+
+    public Long getUserId(String username){
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getId();
+    }
 }

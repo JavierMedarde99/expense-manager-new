@@ -14,7 +14,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 public class DailogUpdate extends Dialog{
 
     public DailogUpdate(String username,BillService billService,Long billId) {
-        FormBill formBill = new FormBill(username,null,getBillById(billService, billId),billService);
+        FormBill formBill = new FormBill(username,null,getBillById(billService, billId),billService,null);
         setHeaderTitle("Update Expense");
         add(formBill);
     }
