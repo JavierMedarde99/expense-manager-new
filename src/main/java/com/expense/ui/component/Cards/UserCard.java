@@ -23,7 +23,7 @@ public class UserCard extends Card {
         HorizontalLayout subTypes = new HorizontalLayout();
         Text textSubType = new Text("Subtypes: ");
         DailogSubTypeUser dialog = new DailogSubTypeUser(userService.getUserId(userDto.getUserName()), subTypeService, subTypeService.getAllSubtype(userDto.getUserName()));
-        Button updateSubtype = new Button("update subtyoe");
+        Button updateSubtype = new Button("update subtype");
         updateSubtype.addClickListener(event->dialog.open());
         subTypes.add(textSubType,updateSubtype);
 

@@ -57,7 +57,7 @@ public class DailogSubTypeUser extends Dialog {
                         Notification.Position.BOTTOM_END);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 close();
-                if (listSubTypes == null){
+                if (listSubTypes == null) {
                     UI.getCurrent().navigate("login");
                 }
 
@@ -79,12 +79,13 @@ public class DailogSubTypeUser extends Dialog {
                 iconDelete.setColor("#FF0000");
                 iconDelete.addClickListener(event2 -> {
                     if (!subTypeService.deleteSubtype(userId, subTypesDto)) {
-                        Notification notification = Notification.show("It could not be removed, please check if there are any associated costs", 3000,
+                        Notification notification = Notification.show(
+                                "It could not be removed, please check if there are any associated costs", 3000,
                                 Notification.Position.BOTTOM_END);
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    }else{
+                    } else {
                         listSubTypesNew.remove(subTypesDto);
-                subtypesDiv.removeAll();
+                        subtypesDiv.removeAll();
                     }
                 });
 
@@ -98,23 +99,35 @@ public class DailogSubTypeUser extends Dialog {
             HorizontalLayout subtypesDiv = new HorizontalLayout();
             SubTypesDto subTypesDto = new SubTypesDto(inputText.getValue(),
                     colorPicker.getValue().isBlank() ? "#000000" : colorPicker.getValue());
-            listSubTypesNew.add(subTypesDto);
-            Div cuadrado = new Div();
-            cuadrado.setWidth("20px");
-            cuadrado.setHeight("20px");
-            cuadrado.getStyle().set("background-color",
-                    subTypesDto.getColor().isBlank() ? "black" : subTypesDto.getColor());
-            Icon iconDelete = new Icon(VaadinIcon.ARROWS_CROSS);
-            iconDelete.setColor("#FF0000");
-            iconDelete.addClickListener(event2 -> {
-                listSubTypesNew.remove(subTypesDto);
-                subtypesDiv.removeAll();
-            });
-            subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
-            listSubtypesVertical.add(subtypesDiv);
+            if (checkDuplicate(listSubTypesNew, subTypesDto)) {
+                Notification notification = Notification.show(
+                        "There cannot be a type with the same name and the same color", 3000,
+                        Notification.Position.BOTTOM_END);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else {
+                listSubTypesNew.add(subTypesDto);
+                Div cuadrado = new Div();
+                cuadrado.setWidth("20px");
+                cuadrado.setHeight("20px");
+                cuadrado.getStyle().set("background-color",
+                        subTypesDto.getColor().isBlank() ? "black" : subTypesDto.getColor());
+                Icon iconDelete = new Icon(VaadinIcon.ARROWS_CROSS);
+                iconDelete.setColor("#FF0000");
+                iconDelete.addClickListener(event2 -> {
+                    listSubTypesNew.remove(subTypesDto);
+                    subtypesDiv.removeAll();
+                });
+                subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
+                listSubtypesVertical.add(subtypesDiv);
+            }
+
         });
 
         inputs.add(inputText, colorPicker, button);
         add(inputs, listSubtypesVertical, saveSubTypes);
+    }
+
+    private boolean checkDuplicate(List<SubTypesDto> listSubTypesNew, SubTypesDto subTypesDto) {
+        return listSubTypesNew.contains(subTypesDto);
     }
 }
