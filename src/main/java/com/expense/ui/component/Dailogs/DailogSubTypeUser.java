@@ -52,12 +52,15 @@ public class DailogSubTypeUser extends Dialog {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 subTypeService.saveAllSubtype(userId, listSubTypesNew);
-                Notification notification = Notification.show(listSubTypes != null? "User registered successfully!": "update subtyepe succesfully", 3000,
+                Notification notification = Notification.show(
+                        listSubTypes != null ? "update subtyepe succesfully" : "User registered successfully!", 3000,
                         Notification.Position.BOTTOM_END);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 close();
-                if(listSubTypes != null) UI.getCurrent().navigate("login");
-                
+                if (listSubTypes == null){
+                    UI.getCurrent().navigate("login");
+                }
+
             }
         });
 
@@ -75,8 +78,14 @@ public class DailogSubTypeUser extends Dialog {
                 Icon iconDelete = new Icon(VaadinIcon.ARROWS_CROSS);
                 iconDelete.setColor("#FF0000");
                 iconDelete.addClickListener(event2 -> {
-                    listSubTypesNew.remove(subTypesDto);
-                    subtypesDiv.removeAll();
+                    if (!subTypeService.deleteSubtype(userId, subTypesDto)) {
+                        Notification notification = Notification.show("It could not be removed, please check if there are any associated costs", 3000,
+                                Notification.Position.BOTTOM_END);
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }else{
+                        listSubTypesNew.remove(subTypesDto);
+                subtypesDiv.removeAll();
+                    }
                 });
 
                 subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);

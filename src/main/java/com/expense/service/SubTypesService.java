@@ -2,6 +2,7 @@ package com.expense.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,12 @@ public class SubTypesService {
     private final UsersRepository usersRepository;
 
     public void saveAllSubtype(Long idUser,List<SubTypesDto> subTypesDtoList){
-        subTypesDtoList.forEach(subTypesDto->subTypesRepository.save(new Subtypes(subTypesDto, usersRepository.findById(idUser).get())));
+        subTypesDtoList.forEach(subTypesDto->{
+            Optional<Subtypes> optSubtype = subTypesRepository.findByIdUserAndColorAndText(usersRepository.findById(idUser).get(), subTypesDto.getColor(), subTypesDto.getName());
+            if(optSubtype.isEmpty()){
+                subTypesRepository.save(new Subtypes(subTypesDto, usersRepository.findById(idUser).get()));
+            }
+        });
     }
 
     public List<Subtypes> getSubTypes(String username){
@@ -37,7 +43,20 @@ public class SubTypesService {
         return listSubtypeDto;
     }
 
-     private Users getUserByUsername(String username) {
+    public boolean deleteSubtype(long userId, SubTypesDto subTypesDto){
+        Optional<Subtypes> optSubtype = subTypesRepository.findByIdUserAndColorAndText(usersRepository.findById(userId).get(), subTypesDto.getColor(), subTypesDto.getName());
+        if(optSubtype.isEmpty()){
+            return true;
+        }
+        try {
+            subTypesRepository.deleteById(optSubtype.get().getId());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Users getUserByUsername(String username) {
         return usersRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
