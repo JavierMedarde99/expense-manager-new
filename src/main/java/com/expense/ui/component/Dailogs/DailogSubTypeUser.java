@@ -89,7 +89,7 @@ public class DailogSubTypeUser extends Dialog {
                     }
                 });
 
-                subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
+                subtypesDiv.add(iconDelete,cuadrado, new Text(subTypesDto.getName()));
                 listSubtypesVertical.add(subtypesDiv);
             }
 
@@ -117,7 +117,7 @@ public class DailogSubTypeUser extends Dialog {
                     listSubTypesNew.remove(subTypesDto);
                     listSubtypesVertical.remove(subtypesDiv);
                 });
-                subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
+                subtypesDiv.add(iconDelete, cuadrado, new Text(subTypesDto.getName()));
                 listSubtypesVertical.add(subtypesDiv);
             }
 

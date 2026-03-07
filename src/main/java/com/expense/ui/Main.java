@@ -29,7 +29,7 @@ public class Main extends VerticalLayout {
                 .set("margin-left", "20px")
                 .set("margin-right", "20px");
 
-        MenuMain menuMain = new MenuMain(authentication.getName(), billService);
+        MenuMain menuMain = new MenuMain(authentication.getName(), billService,subTypesService);
 
         FooterPage footer = new FooterPage();
 

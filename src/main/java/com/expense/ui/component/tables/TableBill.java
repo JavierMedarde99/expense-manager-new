@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
+import com.expense.service.SubTypesService;
 import com.expense.ui.component.Dailogs.DailogUpdate;
 import com.expense.ui.component.Dailogs.DialogDelete;
 import com.vaadin.flow.component.Text;
@@ -27,7 +28,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 @UIScope
 public class TableBill extends Grid<BillDto> {
 
-    public TableBill(String username, BillService billService, Integer month, Integer year) {
+    public TableBill(String username, BillService billService, Integer month, Integer year,SubTypesService subTypesService) {
 
         boolean isThisMoth = month.equals(LocalDate.now().getMonthValue()) && year.equals(LocalDate.now().getYear());
 
@@ -56,7 +57,7 @@ public class TableBill extends Grid<BillDto> {
                 editIcon.getStyle().set("cursor", "pointer");
                 editIcon.addClickListener(e -> {
                     // Acción de eliminar
-                    DailogUpdate dialogUpdate = new DailogUpdate(username, billService, bill.getId());
+                    DailogUpdate dialogUpdate = new DailogUpdate(username, billService, bill.getId(),subTypesService);
                     dialogUpdate.open();
                 });
 
