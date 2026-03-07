@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(schema = "expense-manager")
+@Table(schema = "expense_manager")
 @Entity
 public class Subtypes {
     @Id

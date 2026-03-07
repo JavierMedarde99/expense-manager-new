@@ -11,9 +11,9 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface RevenueMonthRepository extends CrudRepository<MonthData,Long>{
         
-    @Query(value = "SELECT revenue FROM \"expense-manager\".month_data WHERE month=:month and year=:year and user_id=:id", nativeQuery = true)
+    @Query(value = "SELECT revenue FROM \"expense_manager\".month_data WHERE month=:month and year=:year and user_id=:id", nativeQuery = true)
     Optional<Double> getRevenue(Integer month,Integer year,Long id);
 
-    @Query(value = "SELECT year year_value,ROUND(sum(md.month_salary)::numeric,2) total_earnings, ROUND(SUM(md.total)::numeric,2) total_bill_year,  ROUND((sum(md.month_salary)-SUM(md.total))::numeric,2) as money_saved FROM \"expense-manager\".month_data md where md.user_id = :id GROUP by md.year", nativeQuery = true)
+    @Query(value = "SELECT year year_value,ROUND(sum(md.month_salary)::numeric,2) total_earnings, ROUND(SUM(md.total)::numeric,2) total_bill_year,  ROUND((sum(md.month_salary)-SUM(md.total))::numeric,2) as money_saved FROM \"expense_manager\".month_data md where md.user_id = :id GROUP by md.year", nativeQuery = true)
     List<Map<String,Object>> geyAllYear(Long id);
 }

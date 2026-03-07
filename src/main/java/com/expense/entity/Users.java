@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Data
-@Table(schema = "expense-manager")
+@Table(schema = "expense_manager")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
