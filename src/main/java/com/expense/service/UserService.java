@@ -16,15 +16,15 @@ public class UserService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public boolean newUser(UserDto userDto) {
+    public Long newUser(UserDto userDto) {
         var user = usersRepository.findByUserName(userDto.getUserName());
         if(user.isPresent()) {
-            return false;
+            return -1L;
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        var newUser = new Users(userDto);
-        usersRepository.save(newUser);
-        return true;
+        Users newUser = new Users(userDto);
+        newUser = usersRepository.save(newUser);
+        return newUser.getId();
     }
 
     public UserDto getUserByUsername(String username) {
@@ -56,5 +56,11 @@ public class UserService {
         }
         user.setSalary(userDto.getSalary());
         usersRepository.save(user);
+    }
+
+    public Long getUserId(String username){
+        Users user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getId();
     }
 }

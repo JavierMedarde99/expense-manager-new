@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.expense.entity.Bills;
 import com.expense.entity.Users;
-import com.expense.entity.monthData;
+import com.expense.entity.MonthData;
 import com.expense.repository.BillsRepository;
 import com.expense.repository.RevenueMonthRepository;
 import com.expense.repository.UsersRepository;
@@ -40,7 +40,7 @@ public class ScheduleService {
         for (Users users : listUSer) {
             Double total =getTotalBills(month, year, Integer.parseInt(users.getId().toString()));
             Double revenue = getRevenue(month, year, Integer.parseInt(users.getId().toString()), users.getSalary(), total);
-            monthData montEntity = new monthData(month, year, revenue, users, total, users.getSalary());
+            MonthData montEntity = new MonthData(month, year, revenue, users, total, users.getSalary());
             revenueMonthRepository.save(montEntity);
 
         }

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.expense.service.BillService;
+import com.expense.service.SubTypesService;
 import com.expense.ui.component.FooterPage;
 import com.expense.ui.component.HeaderMain;
 import com.expense.ui.component.Forms.FormMonth;
@@ -22,7 +23,7 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "moth", layout = HeaderMain.class)
 public class Month extends VerticalLayout{
     
-    public Month(BillService billService) {
+    public Month(BillService billService,SubTypesService subTypesService) {
         setSizeFull(); // ocupa toda la pantalla
         setPadding(false);
         setSpacing(false);
@@ -30,7 +31,7 @@ public class Month extends VerticalLayout{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Text monthTotal = new Text("the total is "+ billService.getTotalByMothAndYear(LocalDate.now().getMonthValue(),LocalDate.now().getYear(),authentication.getName()).toString());
-        TableBill tableBill = new TableBill(authentication.getName(), billService,LocalDate.now().getMonthValue(),LocalDate.now().getYear());
+        TableBill tableBill = new TableBill(authentication.getName(), billService,LocalDate.now().getMonthValue(),LocalDate.now().getYear(),subTypesService);
         FormMonth formMonth = new FormMonth(billService,authentication.getName(),tableBill,monthTotal);
         formMonth.getStyle()
         .set("margin", "20px");
@@ -40,7 +41,7 @@ public class Month extends VerticalLayout{
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setAlignItems(Alignment.CENTER);
 
-        layout.add(formMonth,tableBill,monthTotal);
+        layout.add(formMonth,monthTotal,tableBill);
 
         FooterPage footer = new FooterPage();
 

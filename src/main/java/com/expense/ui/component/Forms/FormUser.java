@@ -3,7 +3,9 @@ package com.expense.ui.component.Forms;
 import org.springframework.stereotype.Component;
 
 import com.expense.model.UserDto;
+import com.expense.service.SubTypesService;
 import com.expense.service.UserService;
+import com.expense.ui.component.Dailogs.DailogSubTypeUser;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -21,7 +23,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class FormUser extends FormLayout {
 
-    public FormUser(UserService userService, UserDto userDto) {
+    public FormUser(UserService userService, UserDto userDto,SubTypesService subTypeService) {
         setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1));
 
@@ -54,6 +56,7 @@ public class FormUser extends FormLayout {
             euroField.setValue(userDto.getSalary());
         }
 
+        
         Button buttonSubmit = new Button("submit");
 
         Binder<UserDto> binder = new Binder<>(UserDto.class);
@@ -87,11 +90,12 @@ public class FormUser extends FormLayout {
                 } else {
                     UserDto userDtoNew = new UserDto(userName.getValue(), email.getValue(), password.getValue(),
                             euroField.getValue());
-                    if (userService.newUser(userDtoNew)) {
-                        Notification notification = Notification.show("User registered successfully!", 3000,
-                                Notification.Position.BOTTOM_END);
-                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                        UI.getCurrent().navigate("login");
+                    Long userId = userService.newUser(userDtoNew);
+                    if (userId != -1L) {
+                        DailogSubTypeUser dialog = new DailogSubTypeUser(userId,subTypeService,null);
+                        dialog.setCloseOnOutsideClick(false);
+                        dialog.setCloseOnEsc(false);
+                        dialog.open();
                     } else {
                         Notification notification = Notification.show("Error registering user.", 3000,
                                 Notification.Position.BOTTOM_END);

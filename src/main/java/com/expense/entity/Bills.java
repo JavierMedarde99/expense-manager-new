@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Data
-@Table(schema = "expense-manager")
+@Table(schema = "expense_manager")
 public class Bills {
         
     @Id
@@ -31,7 +31,6 @@ public class Bills {
     private String name;
     private Double price;
     private String type;
-    private String subType;
     @Nullable
     private LocalDate dateBills;
     private Integer amount;
@@ -43,11 +42,15 @@ public class Bills {
     @JoinColumn(name = "user_id", nullable = false)
     private Users idUser;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subtype_id", nullable = false)
+    private Subtypes idSubtype;
+
     public Bills(BillDto billDto, Users idUser){
         this.name = billDto.getName();
         this.price = billDto.getPrice();
         this.type = billDto.getType();
-        this.subType = billDto.getSubType();
+        this.idSubtype = billDto.getSubType();
         this.dateBills = billDto.getDateBills();
         this.amount = billDto.getAmount();
         this.idUser = idUser;

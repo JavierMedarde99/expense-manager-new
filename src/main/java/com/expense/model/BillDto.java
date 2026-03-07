@@ -3,6 +3,7 @@ package com.expense.model;
 import java.time.LocalDate;
 
 import com.expense.entity.Bills;
+import com.expense.entity.Subtypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,9 +14,9 @@ public class BillDto {
     Long id;
     Integer amount;
     String name;
-    Double price; 
-    String type; 
-    String subType; 
+    Double price;
+    String type;
+    Subtypes subType;
     LocalDate dateBills;
 
     public BillDto(Bills bills) {
@@ -24,7 +25,11 @@ public class BillDto {
         this.name = bills.getName();
         this.price = bills.getPrice();
         this.type = bills.getType();
-        this.subType = bills.getSubType();
+        this.subType = bills.getIdSubtype();
         this.dateBills = bills.getDateBills();
+    }
+
+    public String getRowColor() {
+        return subType != null ? subType.getColor() : null;
     }
 }

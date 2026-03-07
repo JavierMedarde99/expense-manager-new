@@ -3,6 +3,7 @@ package com.expense.ui.component.Dailogs;
 import com.expense.service.BillService;
 import com.expense.ui.component.tables.TableBill;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -25,8 +26,8 @@ public class DialogDelete extends Dialog{
         ButtonVariant.LUMO_ERROR);
         btnConfirm.addClickListener(e ->{
             billService.deleteBill(billId);
-            tableBill.reload(username, billService, month, year);
             close();
+            UI.getCurrent().getPage().reload();
         });
 
         Button btnCancel = new Button("Cancel", e -> close());

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
+import com.expense.service.SubTypesService;
 import com.expense.ui.component.Forms.FormBill;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -13,8 +14,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class DailogUpdate extends Dialog{
 
-    public DailogUpdate(String username,BillService billService,Long billId) {
-        FormBill formBill = new FormBill(username,null,getBillById(billService, billId),billService);
+    public DailogUpdate(String username,BillService billService,Long billId,SubTypesService subTypesService) {
+        FormBill formBill = new FormBill(username,null,getBillById(billService, billId),billService,subTypesService);
         setHeaderTitle("Update Expense");
         add(formBill);
     }
