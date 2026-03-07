@@ -32,10 +32,6 @@ public class MonthData {
     @JoinColumn(name = "user_id")
     private Users userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subtype_id")
-    private Subtypes subtypeId;
-
     public MonthData(Integer month,Integer year,Double revenue,Users idUser,Double total,Double monthSalary){
         this.month = month;
         this.year = year;
