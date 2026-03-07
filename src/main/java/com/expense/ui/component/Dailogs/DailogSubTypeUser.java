@@ -85,7 +85,7 @@ public class DailogSubTypeUser extends Dialog {
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else {
                         listSubTypesNew.remove(subTypesDto);
-                        subtypesDiv.removeAll();
+                        listSubtypesVertical.remove(subtypesDiv);
                     }
                 });
 
@@ -115,7 +115,7 @@ public class DailogSubTypeUser extends Dialog {
                 iconDelete.setColor("#FF0000");
                 iconDelete.addClickListener(event2 -> {
                     listSubTypesNew.remove(subTypesDto);
-                    subtypesDiv.removeAll();
+                    listSubtypesVertical.remove(subtypesDiv);
                 });
                 subtypesDiv.add(cuadrado, new Text(subTypesDto.getName()), iconDelete);
                 listSubtypesVertical.add(subtypesDiv);
