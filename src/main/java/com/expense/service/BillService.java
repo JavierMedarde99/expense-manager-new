@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.expense.entity.Bills;
 import com.expense.entity.Users;
+import com.expense.enums.TypesExpenses;
 import com.expense.model.BillDto;
 import com.expense.model.ChartDataBaseDto;
 import com.expense.repository.BillsRepository;
@@ -20,25 +21,40 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BillService {
-    
+
     private final BillsRepository billsRepository;
     private final UsersRepository usersRepository;
     private final RevenueMonthRepository revenueMonthRepository;
 
     public void saveBill(BillDto billDto, String username) {
-        
+
         Users user = getUserByUsername(username);
         Bills bills = new Bills(billDto, user);
         billsRepository.save(bills);
 
     }
 
-    public List<BillDto> getBillByMonthAndYear(String username, int month, int year) {
+    public List<BillDto> getBillByMonthAndYear(String username, int month, int year, TypesExpenses type) {
         Users user = getUserByUsername(username);
-        return billsRepository.getOneMonthBills(month, year, user.getId())
-                .stream()
-                .map(BillDto::new)
-                .toList();
+        switch (type) {
+            case FIXED:
+                return billsRepository.getOneMonthBillsFixed(month, year, user.getId())
+                        .stream()
+                        .map(BillDto::new)
+                        .toList();
+            case VARIABLE:
+                return billsRepository.getOneMonthBillsVariable(month, year, user.getId())
+                        .stream()
+                        .map(BillDto::new)
+                        .toList();
+
+            default:
+                return billsRepository.getOneMonthBillsAllTypes(month, year, user.getId())
+                        .stream()
+                        .map(BillDto::new)
+                        .toList();
+
+        }
 
     }
 
@@ -69,9 +85,10 @@ public class BillService {
         List<String> subTypes = billsRepository.getSubTypes(month, year, user.getId());
 
         for (String subType : subTypes) {
-            List<Map<String,Number>> ListBill = billsRepository.getChartDataByCategory(month, year, user.getId(),subType);
+            List<Map<String, Number>> ListBill = billsRepository.getChartDataByCategory(month, year, user.getId(),
+                    subType);
             double total = 0;
-            for (Map<String,Number> bill : ListBill) {
+            for (Map<String, Number> bill : ListBill) {
                 Number price = bill.get("price");
                 Number amount = bill.get("amount");
                 double p = price == null ? 0.0 : price.doubleValue();
@@ -82,21 +99,32 @@ public class BillService {
             chartDataList.add(chartData);
         }
 
-
         return chartDataList;
     }
 
-    public Double getTotalByMothAndYear(int month,int year,String username){
+    public Double getTotalByMothAndYear(int month, int year, String username, TypesExpenses typesExpenses) {
         Double sum = 0.00;
+        List<Bills> listBills;
         Users user = getUserByUsername(username);
         Optional<Double> optTotal = revenueMonthRepository.getRevenue(month, year, user.getId());
-        if(optTotal.isPresent()){
+        if (optTotal.isPresent()) {
             return Math.round(optTotal.get() * 100.0) / 100.0;
         }
-        List<Bills> listBills = billsRepository.getOneMonthBills(month, year, user.getId());
+
+        switch (typesExpenses) {
+            case FIXED:
+                listBills = billsRepository.getOneMonthBillsFixed(month, year, user.getId());
+                break;
+            case VARIABLE:
+                listBills = billsRepository.getOneMonthBillsVariable(month, year, user.getId());
+                break;
+            default:
+                listBills = billsRepository.getOneMonthBillsAllTypes(month, year, user.getId());
+                break;
+        }
 
         for (Bills bills : listBills) {
-            Double expense = bills.getPrice()*bills.getAmount();
+            Double expense = bills.getPrice() * bills.getAmount();
             sum += expense;
         }
 

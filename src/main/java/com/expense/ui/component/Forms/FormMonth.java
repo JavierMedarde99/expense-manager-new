@@ -40,13 +40,13 @@ public class FormMonth extends FormLayout {
 
         Button buttonFilter = new Button("Filter");
 
-        buttonFilter.addClickListener(e -> {
-            List<BillDto> bills = billService.getBillByMonthAndYear(username,
-                    selectMoth.getValue().getValue(),
-                    selectYear.getValue());
-            tableBill.setItems(bills);
-            textTotal.setText("the total is "+ billService.getTotalByMothAndYear(selectMoth.getValue().getValue(),selectYear.getValue(),username).toString());
-        });
+        // buttonFilter.addClickListener(e -> {
+        //     List<BillDto> bills = billService.getBillByMonthAndYear(username,
+        //             selectMoth.getValue().getValue(),
+        //             selectYear.getValue());
+        //     tableBill.setItems(bills);
+        //     textTotal.setText("the total is "+ billService.getTotalByMothAndYear(selectMoth.getValue().getValue(),selectYear.getValue(),username).toString());
+        // });
         add(selectMoth, selectYear, buttonFilter);
     }
 
