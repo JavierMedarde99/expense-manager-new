@@ -7,21 +7,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.expense.model.BillDto;
+
 import com.expense.model.MonthArray;
 import com.expense.service.BillService;
-import com.expense.ui.component.tables.TableBill;
-import com.vaadin.flow.component.Text;
+import com.expense.service.SubTypesService;
+import com.expense.ui.utils.FuntionsTables;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Component
 @UIScope
 public class FormMonth extends FormLayout {
 
-    public FormMonth(BillService billService, String username, TableBill tableBill, Text textTotal) {
+    public FormMonth(BillService billService,SubTypesService subTypesService, String username, TabSheet tablesSheet) {
 
         setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("1000px", 3));
@@ -40,13 +41,9 @@ public class FormMonth extends FormLayout {
 
         Button buttonFilter = new Button("Filter");
 
-        // buttonFilter.addClickListener(e -> {
-        //     List<BillDto> bills = billService.getBillByMonthAndYear(username,
-        //             selectMoth.getValue().getValue(),
-        //             selectYear.getValue());
-        //     tableBill.setItems(bills);
-        //     textTotal.setText("the total is "+ billService.getTotalByMothAndYear(selectMoth.getValue().getValue(),selectYear.getValue(),username).toString());
-        // });
+        buttonFilter.addClickListener(e -> {
+            FuntionsTables.reloadAllTables(billService, subTypesService, selectMoth.getValue().getValue(), selectYear.getValue(), username, tablesSheet);
+        });
         add(selectMoth, selectYear, buttonFilter);
     }
 
@@ -67,4 +64,5 @@ public class FormMonth extends FormLayout {
         }
         return yearList;
     }
+
 }

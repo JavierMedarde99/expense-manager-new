@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.expense.ui.Main;
-import com.expense.ui.Month;
+import com.expense.ui.MonthPage;
 import com.expense.ui.User;
 import com.expense.ui.Year;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -65,7 +65,7 @@ public class HeaderMain extends AppLayout {
         // 🔹 Drawer
         VerticalLayout drawerLayout = new VerticalLayout(logoMenuLink,
                 new RouterLink("Dashboard", Main.class),
-                new RouterLink("Month", Month.class),
+                new RouterLink("Month", MonthPage.class),
                 new RouterLink("User", User.class),
                 new RouterLink("Year", Year.class)
         );
