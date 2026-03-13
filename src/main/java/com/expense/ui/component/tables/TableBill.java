@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.expense.enums.TypesExpenses;
 import com.expense.model.BillDto;
 import com.expense.service.BillService;
 import com.expense.service.SubTypesService;
@@ -28,7 +29,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 @UIScope
 public class TableBill extends Grid<BillDto> {
 
-    public TableBill(String username, BillService billService, Integer month, Integer year,SubTypesService subTypesService) {
+    public TableBill(String username, BillService billService, Integer month, Integer year,SubTypesService subTypesService,TypesExpenses typesExpenses) {
 
         boolean isThisMoth = month.equals(LocalDate.now().getMonthValue()) && year.equals(LocalDate.now().getYear());
 
@@ -41,7 +42,7 @@ public class TableBill extends Grid<BillDto> {
         addColumn(BillDto::getAmount).setHeader("Amount").setSortable(true);
         addColumn(BillDto::getPrice).setHeader("Price").setSortable(true);
 
-        List<BillDto> bills = billService.getBillByMonthAndYear(username, month, year);
+        List<BillDto> bills = billService.getBillByMonthAndYear(username, month, year,typesExpenses);
         setItems(bills);
 
         setEmptyStateText(isThisMoth ? "not bill this moth" : "not bill last moth");
@@ -82,11 +83,6 @@ public class TableBill extends Grid<BillDto> {
         setAllRowsVisible(false);
         setWidthFull();
 
-    }
-
-    public void reload(String username, BillService billService, Integer month, Integer year) {
-        List<BillDto> bills = billService.getBillByMonthAndYear(username, month, year);
-        setItems(bills);
     }
 
     private static Renderer<BillDto> createToggleDetailsRenderer(Grid<BillDto> grid) {
